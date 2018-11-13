@@ -79,34 +79,26 @@ plt.show()
 # plt.savefig('../../New/Distribution of LID ratio.jpg')
 
 #%%
+d_order = ['1hr', '2hr', '3hr', '6hr', '9hr', '12hr']
+p_order = ['2year','5year' ,'10year' ,'25year' ,'50year' ,'100year']
 # setting styles and figure
 plt.clf()
-fig ,ax= plt.subplots(figsize=(9, 7.5))
+# fig = plt.figure(figsize=(10,12))
 sns.set_style("white")
-sns.set_context("paper", font_scale=1)
+sns.set_context("paper", font_scale=2)
 
 # plot box of LID ration, and point of mean and impervious ratio
 g = sns.factorplot(x='Sub', y='LID_ratio', kind='box',
-col='duration',data=gdf, fliersize=0, color='w',showmeans=True, meanline=True)
+col='duration', col_order=d_order, col_wrap=2,
+data=gdf, fliersize=0, color='w',showmeans=True,
+meanprops={'marker':'D', 'markerfacecolor':'blue', 'markersize':'6'},
+size=5, aspect=1.25)
 g.map(sns.stripplot, x='Sub',y='Impervious',data=groupSub,
-size=8, label='impervious ratio', color='g')
-# g.map(sns.stripplot, x='Sub',y='LID_ratio',data=groupSub, marker='D',
-# size=8, label='mean of LID ratio', color='b')
-g.set_xticklabels(rotation=45)
+size=6, label='impervious ratio', color='g')
+
+g.set_xticklabels(rotation=90)
 g.set_xlabels('Subcatchment')
 g.set_ylabels('LID_ratio $(\%)$')
-g.add_legend()
-plt.title('Distribution of LID ratio')
-
-# only show one legend of second and third plots
-# handles, labels = ax.get_legend_handles_labels()
-# ax.legend([handles[0],handles[30]],[labels[0],labels[30]], loc=1)
-
-# customizing x, y axes 
-# plt.xlabel('Subcatchment')
-# plt.ylabel('LID ratio $(\%)$')
-# plt.xticks(rotation='45')
-# plt.title('Distribution of LID ratio')
-# plt.axis([-1,30,0,1.0])
-plt.show()
-# plt.savefig('../../New/Distribution of LID ratio.jpg')
+# plt.show()
+plt.savefig('../../New/Distribution of LID ratio (duration).jpg',
+bbox_inches='tight')
