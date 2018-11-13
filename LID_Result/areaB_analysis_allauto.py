@@ -45,7 +45,8 @@ alldf['Impervious'] = alldf['Impervious']/100
 # by take mean of data
 gdf = alldf.groupby(['Sub','duration','period'], as_index=False).mean()
 groupSub = alldf.groupby('Sub', as_index=False).mean()
-
+#%%
+print(gdf[gdf['Sub'] == 'B12'])
 
 #%%
 import seaborn as sns
@@ -55,15 +56,18 @@ sns.set_style("white")
 sns.set_context("paper", font_scale=1.65)
 
 # plot box of LID ration, and point of mean and impervious ratio
-sns.boxplot(x='Sub', y='LID_ratio',data=gdf, fliersize=0, color='w')
+sns.boxplot(x='Sub', y='LID_ratio',data=gdf, fliersize=0, 
+color='w',showmeans=True, 
+meanprops={'marker':'D', 'markerfacecolor':'blue', 'markersize':'8'})
 sns.stripplot(x='Sub',y='Impervious',data=groupSub, ax=ax,
 size=8, label='impervious ratio', color='g')
-sns.stripplot(x='Sub',y='LID_ratio',data=groupSub, marker='D', ax=ax,
-size=8, label='mean of LID ratio', color='b')
+# sns.stripplot(x='Sub',y='LID_ratio',data=groupSub, marker='D', ax=ax,
+# size=8, label='mean of LID ratio', color='b')
 
 # only show one legend of second and third plots
 handles, labels = ax.get_legend_handles_labels()
-ax.legend([handles[0],handles[30]],[labels[0],labels[30]], loc=1)
+ax.legend(handles[0:1],labels[0:1], loc=1)
+# ax.legend([handles[0],handles[30]],[labels[0],labels[30]], loc=1)
 
 # customizing x, y axes 
 plt.xlabel('Subcatchment')
@@ -71,5 +75,38 @@ plt.ylabel('LID ratio $(\%)$')
 plt.xticks(rotation='45')
 plt.title('Distribution of LID ratio')
 plt.axis([-1,30,0,1.0])
-# plt.show()
-plt.savefig('../../New/Distribution of LID ratio.jpg')
+plt.show()
+# plt.savefig('../../New/Distribution of LID ratio.jpg')
+
+#%%
+# setting styles and figure
+plt.clf()
+fig ,ax= plt.subplots(figsize=(9, 7.5))
+sns.set_style("white")
+sns.set_context("paper", font_scale=1)
+
+# plot box of LID ration, and point of mean and impervious ratio
+g = sns.factorplot(x='Sub', y='LID_ratio', kind='box',
+col='duration',data=gdf, fliersize=0, color='w',showmeans=True, meanline=True)
+g.map(sns.stripplot, x='Sub',y='Impervious',data=groupSub,
+size=8, label='impervious ratio', color='g')
+# g.map(sns.stripplot, x='Sub',y='LID_ratio',data=groupSub, marker='D',
+# size=8, label='mean of LID ratio', color='b')
+g.set_xticklabels(rotation=45)
+g.set_xlabels('Subcatchment')
+g.set_ylabels('LID_ratio $(\%)$')
+g.add_legend()
+plt.title('Distribution of LID ratio')
+
+# only show one legend of second and third plots
+# handles, labels = ax.get_legend_handles_labels()
+# ax.legend([handles[0],handles[30]],[labels[0],labels[30]], loc=1)
+
+# customizing x, y axes 
+# plt.xlabel('Subcatchment')
+# plt.ylabel('LID ratio $(\%)$')
+# plt.xticks(rotation='45')
+# plt.title('Distribution of LID ratio')
+# plt.axis([-1,30,0,1.0])
+plt.show()
+# plt.savefig('../../New/Distribution of LID ratio.jpg')
