@@ -6,7 +6,7 @@ import numpy as np
 import os
 
 # define to path to reach data
-path = 'D:\梁崇淵\論文\Result\OptimalResult\Result'
+path = 'D:\梁崇淵\論文\Result\OptimalResult\Billion\Picked'
 os.chdir(path)
 
 #%%
@@ -34,7 +34,7 @@ for file in file_list:
 # concat all data into one DataFrame
 alldf = pd.concat(df_list, axis='rows', ignore_index=True)
 # read information of subcatchment and merge into results of simulation
-subdf = pd.read_csv('../Subcatchment.csv')
+subdf = pd.read_csv('../../Subcatchment.csv')
 alldf = pd.merge(alldf, subdf, on='Sub')
 # calculate the ratio of intalled LID
 alldf['Sub'] = alldf['Sub'].astype('category')
@@ -45,7 +45,6 @@ alldf['Impervious'] = alldf['Impervious']/100
 # by take mean of data
 gdf = alldf.groupby(['Sub','duration','period'], as_index=False).mean()
 groupSub = alldf.groupby('Sub', as_index=False).mean()
-print(groupSub)
 
 
 #%%
@@ -53,7 +52,7 @@ import seaborn as sns
 # setting styles and figure
 fig ,ax= plt.subplots(figsize=(9, 7.5))
 sns.set_style("white")
-sns.set_context("paper", font_scale=1.7)
+sns.set_context("paper", font_scale=1.65)
 
 # plot box of LID ration, and point of mean and impervious ratio
 sns.boxplot(x='Sub', y='LID_ratio',data=gdf, fliersize=0, color='w')
@@ -64,35 +63,13 @@ size=8, label='mean of LID ratio', color='b')
 
 # only show one legend of second and third plots
 handles, labels = ax.get_legend_handles_labels()
-ax.legend([handles[0],handles[30]],[labels[0],labels[30]])
+ax.legend([handles[0],handles[30]],[labels[0],labels[30]], loc=1)
 
 # customizing x, y axes 
 plt.xlabel('Subcatchment')
 plt.ylabel('LID ratio $(\%)$')
 plt.xticks(rotation='45')
 plt.title('Distribution of LID ratio')
-plt.axis([-1,30,0,0.6])
-plt.show()
-
-
-# #%%
-# period=[2,5,10,25,50,100]
-# duration=[1,2,3,6,9,12]
-
-# for i in range(6):
-#     for j in range(6):
-#         d = duration[i]
-#         p = period[j]
-        
-#         # 計數在這樣的降雨條件下有多少的模擬輸出檔
-#         num = 0
-#         while (os.path.exists('C:\\Users\\user\\Desktop\\Results\\OptimalResult\\Result\\%shr_%syear-opt-%s.txt'%(str(d),str(p),str(num)))):
-#             num += 1
-#         if num == 0:
-#             continue
-            
-#         # 若此降雨尚未開設資料夾，則新開一個屬於此降雨之資料夾
-#         if not os.path.exists('C:\\Users\\user\\Desktop\\Results\\OptimalResult\\Figure\\%shr_%syear'%(str(d),str(p))):
-#             os.makedirs('C:\\Users\\user\\Desktop\\Results\\OptimalResult\\Figure\\%shr_%syear'%(str(d),str(p)))
-
-#         mainfunction(d,p,num)
+plt.axis([-1,30,0,1.0])
+# plt.show()
+plt.savefig('../../New/Distribution of LID ratio.jpg')
