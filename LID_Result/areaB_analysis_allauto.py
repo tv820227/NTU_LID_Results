@@ -9,7 +9,7 @@ import numpy as np
 import os
 
 # define to path to reach data
-path = 'D:/梁崇淵/論文/Result/OptimalResult/Billion/Picked'
+path = 'D:/Chung-Yuan/論文/Result/OptimalResult/halfBillion/Picked'
 os.chdir(path)
 
 #%%
@@ -54,11 +54,13 @@ alldf['Impervious'] = alldf['Impervious']/100
 # by take mean of data
 gdf = alldf.groupby(['Sub','duration','period'], as_index=False).mean()
 groupSub = alldf.groupby('Sub', as_index=False).mean()
+# groupSub.to_csv('../groupbymean.csv', sep=',')
 
 #%%
 # ----------------------------------------
 # plot LID distruibution 
 # ----------------------------------------
+from matplotlib.lines import Line2D
 import seaborn as sns
 # setting styles and figure
 fig ,ax= plt.subplots(figsize=(9, 7.5))
@@ -87,8 +89,8 @@ plt.ylabel('LID ratio $(\%)$')
 plt.xticks(rotation='45')
 plt.title('Distribution of LID ratio')
 plt.axis([-1,30,0,1.0])
-# plt.show()
-plt.savefig('../../New/Distribution of LID ratio.jpg')
+plt.show()
+# plt.savefig('../../../New/Distribution of LID ratio(0.5B).jpg')
 
 
 # %%
@@ -96,7 +98,6 @@ plt.savefig('../../New/Distribution of LID ratio.jpg')
 # plot the distribution under different durations
 # --------------------------------------------------
 # from matplotlib.markers import markers
-from matplotlib.lines import Line2D
 d_order = ['1hr', '2hr', '3hr', '6hr', '9hr', '12hr']
 # setting styles and figure
 plt.clf()
@@ -116,6 +117,8 @@ size=6, color='g', label='impervious ratio')
 g.set_xticklabels(rotation=90)
 g.set_xlabels('Subcatchment')
 g.set_ylabels('LID_ratio $(\%)$')
+# g.set_xlim([-1,30])
+# g.set_ylim([0,0.7])
 # create handles and labels for legend
 h = [Line2D([0],[0],marker='D',color='b',markersize=6, linewidth=0),
 Line2D([0],[0],marker='o',color='g',markersize=6, linewidth=0)]
@@ -126,9 +129,9 @@ g.add_legend(handles=h, labels=l)
 # with anchor on the upper right
 # g.axes[1].legend(handles, labels, bbox_to_anchor=(1.2,1.2,0,0))
 
-# plt.show()
-plt.savefig('../../New/Distribution of LID ratio (duration).jpg',
-bbox_inches='tight')
+plt.show()
+# plt.savefig('../../../New/Distribution of LID ratio (duration, 0.5B).jpg',
+# bbox_inches='tight')
 
 #%%
 # --------------------------------------------------
@@ -145,7 +148,7 @@ g = sns.factorplot(x='Sub', y='LID_ratio', kind='box',
 col='period', col_order=p_order, col_wrap=2,
 data=gdf, fliersize=0, color='w',showmeans=True, meanline=False,
 meanprops={'marker':'D', 'markerfacecolor':'blue', 'markersize':'6',
-'label':'mean of LID ratio'},size=5, aspect=1.25,legend_out=True)
+'label':'mean of LID ratio'},size=5, aspect=1.25,legend_out=False)
 g.map(sns.stripplot, x='Sub',y='Impervious',data=groupSub,
 size=6, label='impervious ratio', color='g')
 
@@ -153,13 +156,15 @@ size=6, label='impervious ratio', color='g')
 g.set_xticklabels(rotation=90)
 g.set_xlabels('Subcatchment')
 g.set_ylabels('LID_ratio $(\%)$')
-
+# g.set_xlim([-1,30])
+# g.set_ylim([0,0.7])
 # create handles and labels for legend
 h = [Line2D([0],[0],marker='D',color='b',markersize=6, linewidth=0),
 Line2D([0],[0],marker='o',color='g',markersize=6, linewidth=0)]
 l = ['mean of LID ratio', 'impervious ratio']
-g.add_legend(handles=h, labels=l, loc='right')
-
+# add legend in axes[0] (row 0 column 0) figure
+# with location on the upper left
+g.axes[0].legend(handles=h, labels=l, loc='upper left')
 # plt.show()
-plt.savefig('../../New/Distribution of LID ratio (period).jpg',
+plt.savefig('../../../New/Distribution of LID/Distribution of LID ratio (period, 0.5B).jpg',
 bbox_inches='tight')

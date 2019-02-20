@@ -26,6 +26,7 @@ def import_modify(file_name):
     # change soil_moisture into water level in soil
     df['soil_level'] = df['soil_level']/0.25*400
 
-    df = df.melt(['time(hr)','period','duration'], var_name='property',  value_name='value')
+    # # for subplot we don't need to melt the dataframes
+    # df = df.melt(['time(hr)','period','duration'], var_name='property',  value_name='value')
     # df['unit'] = df['property'].apply(lambda x:'mm' if x in level else 'mm/hr')
     return df
