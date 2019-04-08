@@ -9,7 +9,7 @@ import numpy as np
 import os
 
 # define to path to reach data
-path = 'D:/Chung-Yuan/論文/Result/OptimalResult/halfBillion/Picked'
+path = 'C:\\ChungYuan\\Chung-Yuan\\Publish\\Result\\OptimalResult\\halfBillion\\Picked'
 os.chdir(path)
 
 #%%
@@ -63,9 +63,11 @@ groupSub = alldf.groupby('Sub', as_index=False).mean()
 from matplotlib.lines import Line2D
 import seaborn as sns
 # setting styles and figure
-fig ,ax= plt.subplots(figsize=(9, 7.5))
+plt.clf()
 sns.set_style("white")
-sns.set_context("paper", font_scale=1.60)
+sns.set_context("paper", font_scale=1.6)
+fig ,ax= plt.subplots(figsize=(9, 7.5))
+
 
 # plot box of LID ratio, and point of mean and impervious ratio
 sns.boxplot(x='Sub', y='LID_ratio',data=gdf, fliersize=0, 
@@ -87,10 +89,11 @@ ax.legend(h,l, loc=1)
 plt.xlabel('Subcatchment')
 plt.ylabel('LID ratio $(\%)$')
 plt.xticks(rotation='45')
-plt.title('Distribution of LID ratio')
+plt.title('Distribution of LID ratio (50M)')
 plt.axis([-1,30,0,1.0])
-plt.show()
-# plt.savefig('../../../New/Distribution of LID ratio(0.5B).jpg')
+
+# plt.show()
+plt.savefig('../../../New/Distribution of LID/Distribution of LID ratio(50M).jpg')
 
 
 # %%
@@ -116,7 +119,7 @@ size=6, color='g', label='impervious ratio')
 # customizing x, y axes 
 g.set_xticklabels(rotation=90)
 g.set_xlabels('Subcatchment')
-g.set_ylabels('LID_ratio $(\%)$')
+g.set_ylabels('LID ratio $(\%)$')
 # g.set_xlim([-1,30])
 # g.set_ylim([0,0.7])
 # create handles and labels for legend
@@ -129,9 +132,9 @@ g.add_legend(handles=h, labels=l)
 # with anchor on the upper right
 # g.axes[1].legend(handles, labels, bbox_to_anchor=(1.2,1.2,0,0))
 
-plt.show()
-# plt.savefig('../../../New/Distribution of LID ratio (duration, 0.5B).jpg',
-# bbox_inches='tight')
+# plt.show()
+plt.savefig('../../../New/Distribution of LID/Distribution of LID ratio (duration, 50M).jpg',
+bbox_inches='tight')
 
 #%%
 # --------------------------------------------------
@@ -155,7 +158,7 @@ size=6, label='impervious ratio', color='g')
 # customizing x, y axes 
 g.set_xticklabels(rotation=90)
 g.set_xlabels('Subcatchment')
-g.set_ylabels('LID_ratio $(\%)$')
+g.set_ylabels('LID ratio $(\%)$')
 # g.set_xlim([-1,30])
 # g.set_ylim([0,0.7])
 # create handles and labels for legend
@@ -166,5 +169,5 @@ l = ['mean of LID ratio', 'impervious ratio']
 # with location on the upper left
 g.axes[0].legend(handles=h, labels=l, loc='upper left')
 # plt.show()
-plt.savefig('../../../New/Distribution of LID/Distribution of LID ratio (period, 0.5B).jpg',
+plt.savefig('../../../New/Distribution of LID/Distribution of LID ratio (period, 50M).jpg',
 bbox_inches='tight')
